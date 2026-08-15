@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import { API_BASE_URL, SOCKET_URL } from '../config';
 import { ArrowLeft, TrendingUp, TrendingDown, BarChart3, Activity, Calendar, Hash, PieChart, Bell, BellOff, Wifi, WifiOff, DollarSign, ArrowUpRight, ArrowDownRight, Layers } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { useNotification } from '../contexts/NotificationContext';
@@ -61,7 +62,7 @@ const StockDetails = () => {
 
     // 1. Quote (critical — if this fails, show error page)
     try {
-      const quoteRes = await axios.get(`http://localhost:3001/api/stocks/quote/${symbol}`);
+      const quoteRes = await axios.get(`${API_BASE_URL}/api/stocks/quote/${symbol}`);
       setStockData(quoteRes.data);
       setError(null);
     } catch (err) {
@@ -75,7 +76,7 @@ const StockDetails = () => {
 
     // 2. News (non-critical)
     try {
-      const newsRes = await axios.get(`http://localhost:3001/api/stocks/news/${symbol}`);
+      const newsRes = await axios.get(`${API_BASE_URL}/api/stocks/news/${symbol}`);
       setStockNews(newsRes.data);
       setNewsError(null);
     } catch (err) {
@@ -86,7 +87,7 @@ const StockDetails = () => {
 
     // 3. Chart history (non-critical)
     try {
-      const historyRes = await axios.get(`http://localhost:3001/api/stocks/history/${symbol}`);
+      const historyRes = await axios.get(`${API_BASE_URL}/api/stocks/history/${symbol}`);
       setStockHistory(historyRes.data);
       setChartError(null);
     } catch (err) {
@@ -103,7 +104,7 @@ const StockDetails = () => {
     fetchInitialData();
 
     // Connect to socket.io
-    const socket = io('http://localhost:3001');
+    const socket = io(SOCKET_URL);
     socketRef.current = socket;
 
     socket.on('connect', () => {

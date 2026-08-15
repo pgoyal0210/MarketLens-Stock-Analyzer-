@@ -3,9 +3,10 @@ import { MessageCircle, X, Send } from 'lucide-react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, SOCKET_URL } from '../config';
 import './ChatWidget.css';
 
-const socket = io('http://localhost:3001', { autoConnect: false });
+const socket = io(SOCKET_URL, { autoConnect: false });
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +24,7 @@ const ChatWidget = () => {
       const isAuth = localStorage.getItem('isAuthenticated') === 'true';
       if (isAuth) {
         try {
-          const res = await axios.get('http://localhost:3001/api/auth/me', { withCredentials: true });
+          const res = await axios.get(`${API_BASE_URL}/api/auth/me`, { withCredentials: true });
           const userData = res.data.user;
           setUser(userData);
           
@@ -75,7 +76,7 @@ const ChatWidget = () => {
 
   const fetchMessages = async (roomId) => {
     try {
-      const res = await axios.get(`http://localhost:3001/api/chat/${roomId}`, { withCredentials: true });
+      const res = await axios.get(`${API_BASE_URL}/api/chat/${roomId}`, { withCredentials: true });
       setMessages(res.data);
     } catch (err) {
       console.error("Failed to load messages", err);
@@ -84,7 +85,7 @@ const ChatWidget = () => {
 
   const fetchAdminRooms = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/chat/admin/rooms', { withCredentials: true });
+      const res = await axios.get(`${API_BASE_URL}/api/chat/admin/rooms`, { withCredentials: true });
       setAdminRooms(res.data);
     } catch (err) {
       console.error("Failed to load admin rooms", err);

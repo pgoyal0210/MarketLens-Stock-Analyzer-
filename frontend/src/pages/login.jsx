@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, ArrowRight, Github, Chrome, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
 import { useNotification } from '../contexts/NotificationContext';
+import { API_BASE_URL } from '../config';
 import './login.css';
 
 const Login = () => {
@@ -32,7 +33,7 @@ const Login = () => {
         setLoading(true);
 
         try {
-            const res = await axios.post('http://localhost:3001/api/auth/login', { email, password }, { withCredentials: true });
+            const res = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password }, { withCredentials: true });
             if (res.data.token) {
                 // Assuming successful login stores a cookie HTTPOnly
                 localStorage.setItem('isAuthenticated', 'true');

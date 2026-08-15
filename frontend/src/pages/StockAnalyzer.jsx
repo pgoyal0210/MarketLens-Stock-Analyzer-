@@ -3,6 +3,7 @@ import { Search, TrendingUp, TrendingDown, ArrowRight, Loader, Activity, Star, S
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNotification } from '../contexts/NotificationContext';
+import { API_BASE_URL } from '../config';
 import './StockAnalyzer.css';
 
 const formatMarketCap = (cap) => {
@@ -96,7 +97,7 @@ const StockAnalyzer = () => {
   useEffect(() => {
     const fetchMarketPulse = async () => {
       try {
-        const res = await axios.get('http://localhost:3001/api/stocks/market-pulse');
+        const res = await axios.get(`${API_BASE_URL}/api/stocks/market-pulse`);
         setMarketPulse(res.data);
       } catch (err) {
         console.warn('Failed to fetch market pulse:', err.message);
@@ -124,7 +125,7 @@ const StockAnalyzer = () => {
     setLoading(true);
     setError(null);
     try {
-      const searchRes = await axios.get(`http://localhost:3001/api/stocks/search?q=${query}`);
+      const searchRes = await axios.get(`${API_BASE_URL}/api/stocks/search?q=${query}`);
       const basicResults = searchRes.data.slice(0, 6);
 
       if (basicResults.length === 0) {

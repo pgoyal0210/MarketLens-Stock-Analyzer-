@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { io } from "socket.io-client";
+import { API_BASE_URL, SOCKET_URL } from "../config";
 import { Plus, TrendingUp, TrendingDown, Eye, Trash2, Edit3, Loader, X, Upload, FileText, CheckCircle, AlertCircle } from "lucide-react";
 import "./Portfolio.css";
 
@@ -80,7 +81,7 @@ const Portfolio = () => {
   const fetchPortfolio = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3001/api/protfolio", { withCredentials: true });
+      const response = await axios.get(`${API_BASE_URL}/api/protfolio`, { withCredentials: true });
       const items = response.data || [];
       setPortfolioItems(items);
       setError(null);
@@ -103,7 +104,7 @@ const Portfolio = () => {
       const uniqueSymbols = [...new Set(items.map(item => item.symbol).filter(Boolean))];
       if (uniqueSymbols.length === 0) return;
 
-      const res = await axios.get(`http://localhost:3001/api/stocks/quotes?symbols=${uniqueSymbols.join(',')}`);
+      const res = await axios.get(`${API_BASE_URL}/api/stocks/quotes?symbols=${uniqueSymbols.join(',')}`);
       const liveQuotes = res.data;
 
       if (liveQuotes && typeof liveQuotes === 'object') {
@@ -126,7 +127,7 @@ const Portfolio = () => {
     fetchPortfolio();
 
     // Setup WebSocket
-    const socket = io('http://localhost:3001');
+    const socket = io(SOCKET_URL);
     socketRef.current = socket;
 
     socket.on('connect', () => {

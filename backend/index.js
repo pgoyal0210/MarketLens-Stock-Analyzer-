@@ -15,6 +15,11 @@ import crypto from 'crypto';
 
 dotenv.config();
 
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173,http://localhost:5174,https://marketlens02.netlify.app,https://marketlens-stock-analyzer.onrender.com")
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 // connectDB();
 const app = express();
 const server = http.createServer(app);
@@ -22,14 +27,22 @@ const server = http.createServer(app);
 // ─── Socket.IO setup ────────────────────────────────────────────────
 const io = new SocketIO(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:5174"],
+    origin: allowedOrigins,
     credentials: true,
   },
 });
 
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174"], // Allow both ports for development
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(express.json());

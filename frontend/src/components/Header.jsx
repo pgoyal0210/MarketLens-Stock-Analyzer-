@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useNotification } from '../contexts/NotificationContext';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 import './Header.css';
 
 const Header = () => {
@@ -45,7 +46,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3001/api/auth/logout');
+      await axios.post(`${API_BASE_URL}/api/auth/logout`);
     } catch (err) {
       console.error(err);
     }

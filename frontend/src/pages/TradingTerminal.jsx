@@ -133,7 +133,7 @@ const TradingTerminal = () => {
   const fetchStockQuote = async () => {
     try {
       setLoading(true);
-      const quoteRes = await axios.get(`http://localhost:3001/api/stocks/quote/${symbol}`);
+      const quoteRes = await axios.get(`${API_BASE_URL}/api/stocks/quote/${symbol}`);
       setStockData(quoteRes.data);
       setPrice(quoteRes.data.price || 0);
       setTriggerPrice(quoteRes.data.price ? parseFloat((quoteRes.data.price * 0.98).toFixed(2)) : 0);
@@ -150,7 +150,7 @@ const TradingTerminal = () => {
 
   const fetchStockHistory = async () => {
     try {
-      const historyRes = await axios.get(`http://localhost:3001/api/stocks/history/${symbol}`);
+      const historyRes = await axios.get(`${API_BASE_URL}/api/stocks/history/${symbol}`);
       setStockHistory(historyRes.data || []);
     } catch (err) {
       console.error("Failed history fetch:", err);
@@ -159,7 +159,7 @@ const TradingTerminal = () => {
 
   const fetchPortfolio = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/protfolio", { withCredentials: true });
+      const res = await axios.get(`${API_BASE_URL}/api/protfolio`, { withCredentials: true });
       setPortfolioItems(res.data || []);
     } catch (e) {
       console.warn("Portfolio fetch failed", e);
@@ -173,7 +173,7 @@ const TradingTerminal = () => {
     fetchStockHistory();
     fetchPortfolio();
 
-    const socket = io('http://localhost:3001');
+    const socket = io(SOCKET_URL);
     socketRef.current = socket;
 
     socket.on('connect', () => {
@@ -501,7 +501,7 @@ const TradingTerminal = () => {
 
       if (isBuy) {
         // --- Place Buy Order ---
-        const response = await axios.post("http://localhost:3001/api/protfolio", {
+        const response = await axios.post(`${API_BASE_URL}/api/protfolio`, {
           symbol: symbol.toUpperCase(),
           shares: payloadQty,
           avgPrice: payloadPrice,
@@ -545,9 +545,9 @@ const TradingTerminal = () => {
           if (qtyToReduce <= 0) break;
           if (h.shares <= qtyToReduce) {
             qtyToReduce -= h.shares;
-            await axios.delete(`http://localhost:3001/api/protfolio/${h._id}`, { withCredentials: true });
+            await axios.delete(`${API_BASE_URL}/api/protfolio/${h._id}`, { withCredentials: true });
           } else {
-            await axios.put(`http://localhost:3001/api/protfolio/${h._id}`, {
+            await axios.put(`${API_BASE_URL}/api/protfolio/${h._id}`, {
               shares: h.shares - qtyToReduce,
               avgPrice: h.avgPrice,
               currentPrice: stockData?.price || payloadPrice
