@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  /* Surface — Midnight Slate, deep and rich */
+  --bg-body: #06080A;
+  --bg-card: #0A0D14;
+  --bg-input: #11141D;
+  --bg-hover: #161A26;
+  --bg-elevated: #151924;
+
+  /* Borders — glass-like white transparency */
+  --border: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --border-strong: rgba(255, 255, 255, 0.2);
+
+  /* Text */
+  --text-1: #FFFFFF;
+  --text-2: #8B949E;
+  --text-3: #6E7681;
+
+  /* Accent — Electric Azure Blue */
+  --accent: #2563EB;
+  --accent-glow: #3B82F6;
+  --accent-dim: rgba(37, 99, 235, 0.1);
+  --accent-hover: #1D4ED8;
+
+  /* Semantic */
+  --green: #10B981;
+  --green-glow: rgba(16, 185, 129, 0.2);
+  --red: #EF4444;
+  --red-glow: rgba(239, 68, 68, 0.2);
+  --yellow: #F59E0B;
+
+  /* Type */
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Misc */
+  --radius: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --transition: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  
+  /* Drop Shadows for Elevation in Dark Mode */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+  --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.3);
+}
+
+:root[data-theme="light"] {
+  /* Surface — Clean, Modern Off-White */
+  --bg-body: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-input: #FFFFFF;
+  --bg-hover: #F1F5F9;
+  --bg-elevated: #FFFFFF;
+
+  /* Borders — Subtle Dark outlines */
+  --border: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.15);
+  --border-strong: rgba(0, 0, 0, 0.25);
+
+  /* Text — Deep Slate */
+  --text-1: #0F172A;
+  --text-2: #475569;
+  --text-3: #64748B;
+
+  /* Accent — Keep Electric Azure Blue, but brighter glow */
+  --accent: #2563EB;
+  --accent-glow: #1D4ED8;
+  --accent-dim: rgba(37, 99, 235, 0.1);
+  --accent-hover: #1E40AF;
+
+  /* Semantic - slightly darker for contrast against white */
+  --green: #059669;
+  --green-glow: rgba(5, 150, 105, 0.15);
+  --red: #DC2626;
+  --red-glow: rgba(220, 38, 38, 0.15);
+  --yellow: #D97706;
+
+  /* Adjust Shadows for Light Mode Elevation */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(0,0,0,0.02);
+  --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.2);
+}
+
+/* === RESET === */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-body);
+  color: var(--text-1);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol { list-style: none; }
+img { max-width: 100%; display: block; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  border: none;
+  outline: none;
+  background: var(--bg-input);
+  color: var(--text-1);
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+/* === LAYOUT === */
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* === BUTTONS === */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 9999px; /* Pill shape for premium feel */
+  padding: 12px 24px;
+  transition: all var(--transition);
+  white-space: nowrap;
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
+  border-radius: inherit;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-1);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
+/* === UTILITY === */
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+
+/* Glowing semantic text */
+.positive { color: var(--green) !important; text-shadow: 0 0 8px var(--green-glow); }
+.negative { color: var(--red) !important; text-shadow: 0 0 8px var(--red-glow); }
+
+/* Financial Data Font styling */
+.font-mono {
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-body); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+::selection {
+  background: rgba(37, 99, 235, 0.3);
+  color: #fff;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}

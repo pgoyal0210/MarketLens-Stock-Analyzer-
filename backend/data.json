@@ -1,0 +1,117 @@
+{
+  "users": [
+    {
+      "_id": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "name": "pranav",
+      "email": "kanwarrajat997@gmail.com",
+      "password": "$2b$10$xxBiMF0nvzRIf8ZjEs7kIONYEnGnXStsuOiw/SS3UApUaIdvEWadq",
+      "role": "admin"
+    },
+    {
+      "_id": "94b5df61-d0d4-4749-aa2e-5b625a9a93a1",
+      "name": "Test",
+      "email": "test@test.com",
+      "password": "$2b$10$nohsfuHIBR6a4TE9LSUZm.h8sGdYjgyt5AP5zcMk8OjiPsZrBfVgy",
+      "role": "user"
+    },
+    {
+      "_id": "4307d64f-36e2-4817-921c-aa8fdf86b03d",
+      "name": "pranav",
+      "email": "pranavgoyal500@gmail.com",
+      "password": "$2b$10$ZbdFZUiClJqwLUahG5Xku.r1Pakiq7YG.mm7czjzccyqBToi.z0z.",
+      "role": "user"
+    },
+    {
+      "_id": "423607ff-76ec-4322-8282-1ad71e81567e",
+      "name": "pranav",
+      "email": "kushmahajan54@gmail.com",
+      "password": "$2b$10$cpseYfrWEc9m28T1qqtf7Oo6VN/eebSxVq4QU8ZWNTLGeqYn3041y",
+      "role": "user"
+    },
+    {
+      "_id": "d6187ec9-7a2c-4515-96ef-b5a088a657e1",
+      "name": "Test User",
+      "email": "browser_test@example.com",
+      "password": "$2b$10$yEMtkAX7QZThhJ1LgWt5cuWMC8iJ4Ijis1cLEo4FriFxPLrz4gT1i",
+      "role": "user"
+    }
+  ],
+  "portfolios": [
+    {
+      "_id": "4b5ca6be-c09b-4e19-9a8d-ddb3fef58c0c",
+      "user": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "symbol": "AMAZON",
+      "shares": 123,
+      "avgPrice": 234,
+      "name": "Apple Inc",
+      "currentPrice": 123,
+      "createdAt": 1776876177382
+    },
+    {
+      "_id": "010358dc-9a87-4db3-8798-3091257e464d",
+      "user": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "symbol": "AMAZON",
+      "shares": 123,
+      "avgPrice": 234,
+      "name": "Rajat Kanwar",
+      "currentPrice": 123,
+      "createdAt": 1776881409029
+    },
+    {
+      "_id": "ba296cef-d943-407c-a766-cab5a684562f",
+      "user": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "symbol": "AAPL",
+      "shares": 10,
+      "avgPrice": 150.75,
+      "name": "Apple Inc.",
+      "currentPrice": 160,
+      "createdAt": 1776930056085
+    },
+    {
+      "_id": "8f5df1cd-0dc0-428a-a310-536b20810a67",
+      "user": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "symbol": "GOOGL",
+      "shares": 5,
+      "avgPrice": 2800,
+      "name": "Alphabet Inc.",
+      "currentPrice": 0,
+      "createdAt": 1776930056085
+    },
+    {
+      "_id": "4b0714ce-b487-46f4-81e8-fabeef355c57",
+      "user": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "symbol": "TSLA",
+      "shares": 8,
+      "avgPrice": 210.5,
+      "name": "Tesla Inc.",
+      "currentPrice": 0,
+      "createdAt": 1776930056085
+    }
+  ],
+  "messages": [
+    {
+      "_id": "9a2a5e60-a0ed-4ecb-bccd-a27be51c5cd0",
+      "roomId": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "senderId": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "senderName": "pranav",
+      "text": "pranav is great",
+      "timestamp": 1776883654376
+    },
+    {
+      "_id": "19500c88-006c-4adc-96b9-fbbbeebc0a6f",
+      "roomId": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "senderId": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "senderName": "Admin",
+      "text": "thank you",
+      "timestamp": 1776883854631
+    },
+    {
+      "_id": "e750f96a-b8c6-4269-9867-b41d67a0738e",
+      "roomId": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "senderId": "ada67a3e-5fa0-48c2-844c-84f21448f952",
+      "senderName": "Admin",
+      "text": "bhai aage bol",
+      "timestamp": 1776883919948
+    }
+  ]
+}
