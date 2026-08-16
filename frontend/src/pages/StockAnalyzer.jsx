@@ -4,14 +4,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNotification } from '../contexts/NotificationContext';
 import { API_BASE_URL } from '../config';
+import { formatCompactCurrency, formatCurrencyValue } from '../utils/currency';
 import './StockAnalyzer.css';
 
-const formatMarketCap = (cap) => {
+const formatMarketCap = (cap, symbol = '', exchange = '') => {
   if (cap === null || cap === undefined || isNaN(cap)) return 'N/A';
-  if (cap >= 1_000_000_000_000) return `$${(cap / 1_000_000_000_000).toFixed(2)}T`;
-  if (cap >= 1_000_000_000) return `$${(cap / 1_000_000_000).toFixed(2)}B`;
-  if (cap >= 1_000_000) return `$${(cap / 1_000_000).toFixed(2)}M`;
-  return `$${cap.toLocaleString()}`;
+  return formatCompactCurrency(cap, symbol, exchange);
 };
 
 const StockCard = ({ stock, index }) => (
@@ -34,10 +32,10 @@ const StockCard = ({ stock, index }) => (
         <div className="sa-card-price">
           {stock.price !== null ? (
             <>
-              <span className="sa-price">${(stock.price || 0).toFixed(2)}</span>
+              <span className="sa-price">{formatCurrencyValue(stock.price || 0, stock.symbol, stock.exchange)}</span>
               <span className={`sa-change ${(stock.change || 0) >= 0 ? 'positive' : 'negative'}`}>
                 {(stock.change || 0) >= 0 ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
-                {(stock.change || 0) >= 0 ? '+' : ''}{(stock.change || 0).toFixed(2)} ({(stock.changePercent || 0).toFixed(2)}%)
+                {(stock.change || 0) >= 0 ? '+' : ''}{formatCurrencyValue(stock.change || 0, stock.symbol, stock.exchange)} ({(stock.changePercent || 0).toFixed(2)}%)
               </span>
             </>
           ) : (
@@ -49,11 +47,11 @@ const StockCard = ({ stock, index }) => (
       <div className="sa-card-stats">
         <div className="sa-card-stat">
           <span className="sa-stat-label">Market Cap</span>
-          <span className="sa-stat-value">{formatMarketCap(stock.marketCap)}</span>
+          <span className="sa-stat-value">{formatMarketCap(stock.marketCap, stock.symbol, stock.exchange)}</span>
         </div>
         <div className="sa-card-stat">
           <span className="sa-stat-label">Volume</span>
-          <span className="sa-stat-value">{formatMarketCap(stock.volume)}</span>
+          <span className="sa-stat-value">{formatCompactCurrency(stock.volume, stock.symbol, stock.exchange)}</span>
         </div>
       </div>
 

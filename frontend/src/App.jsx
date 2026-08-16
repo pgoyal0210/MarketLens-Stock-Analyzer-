@@ -45,22 +45,18 @@ function App() {
                 />
                 <Route 
                   path="/stock/:symbol" 
-                  element={
-                    <AuthLayout>
-                      <StockDetails />
-                    </AuthLayout>
-                  } 
+                  element={<StockDetails />} 
                 />
-                <Route 
-                  path="/trade/:symbol" 
+                {/* Protected trading and portfolio routes */}
+                <Route
+                  path="/trade/:symbol"
                   element={
                     <AuthLayout>
                       <TradingTerminal />
                     </AuthLayout>
-                  } 
+                  }
                 />
 
-                {/* Protected Portfolio Route */}
                 <Route
                   path="/portfolio"
                   element={

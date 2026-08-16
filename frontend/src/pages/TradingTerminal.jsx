@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import { API_BASE_URL, SOCKET_URL } from '../config';
 import { 
   ArrowLeft, Wifi, WifiOff, Star, Sparkles, TrendingUp, TrendingDown, 
   DollarSign, Activity, AlertCircle, ArrowUpRight, ArrowDownRight, 
@@ -11,42 +12,40 @@ import {
   ComposedChart, Bar, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
 } from 'recharts';
 import toast from 'react-hot-toast';
+import { formatCurrencyValue, formatCompactCurrency, getCurrencyCode } from '../utils/currency';
 import './TradingTerminal.css';
 
 // Formatter utilities
-const formatLargeNumber = (num) => {
+const formatLargeNumber = (num, symbol = '', exchange = '') => {
   if (num === null || num === undefined || isNaN(num)) return 'N/A';
-  if (num >= 1_000_000_000_000) return `$${(num / 1_000_000_000_000).toFixed(2)}T`;
-  if (num >= 1_000_000_000) return `$${(num / 1_000_000_000).toFixed(2)}B`;
-  if (num >= 1_000_000) return `$${(num / 1_000_000).toFixed(2)}M`;
-  return `$${num.toLocaleString()}`;
+  return formatCompactCurrency(num, symbol, exchange);
 };
 
 // Recharts Custom Candlestick Tooltip
-const ChartTooltip = ({ active, payload }) => {
+const ChartTooltip = ({ active, payload, currencyCode = 'USD' }) => {
   if (active && payload && payload.length) {
-    // Find the data point
     const data = payload[0].payload;
     const isUp = data.close >= data.open;
+    const currencySymbol = currencyCode === 'INR' ? '₹' : '$';
     return (
       <div className="tt-chart-tooltip">
         <p className="tt-tooltip-date">{data.date}</p>
         <div className="tt-tooltip-row">
           <span>Open:</span>
-          <span className="tt-tooltip-val">${data.open.toFixed(2)}</span>
+          <span className="tt-tooltip-val">{currencySymbol}{data.open.toFixed(2)}</span>
         </div>
         <div className="tt-tooltip-row">
           <span>High:</span>
-          <span className="tt-tooltip-val">${data.high.toFixed(2)}</span>
+          <span className="tt-tooltip-val">{currencySymbol}{data.high.toFixed(2)}</span>
         </div>
         <div className="tt-tooltip-row">
           <span>Low:</span>
-          <span className="tt-tooltip-val">${data.low.toFixed(2)}</span>
+          <span className="tt-tooltip-val">{currencySymbol}{data.low.toFixed(2)}</span>
         </div>
         <div className="tt-tooltip-row">
           <span>Close:</span>
           <span className={`tt-tooltip-val ${isUp ? 'up' : 'down'}`}>
-            ${data.close.toFixed(2)}
+            {currencySymbol}{data.close.toFixed(2)}
           </span>
         </div>
         <div className="tt-tooltip-row">
@@ -56,7 +55,7 @@ const ChartTooltip = ({ active, payload }) => {
         {data.sma !== undefined && (
           <div className="tt-tooltip-row" style={{ color: '#2563eb' }}>
             <span>SMA (15):</span>
-            <span className="tt-tooltip-val">${data.sma.toFixed(2)}</span>
+            <span className="tt-tooltip-val">{currencySymbol}{data.sma.toFixed(2)}</span>
           </div>
         )}
         {data.rsi !== undefined && (
@@ -620,6 +619,8 @@ const TradingTerminal = () => {
 
   const stockChangePercent = stockData.changePercent || 0;
   const isUp = stockChangePercent >= 0;
+  const priceCurrencyCode = getCurrencyCode(symbol, stockData?.exchange);
+  const priceCurrencySymbol = priceCurrencyCode === 'INR' ? '₹' : '$';
 
   return (
     <div className="tt-page">
@@ -643,14 +644,14 @@ const TradingTerminal = () => {
 
           <div className="tt-header-middle">
             <div className="tt-live-price-wrap">
-              <span className="tt-price-symbol">$</span>
+              <span className="tt-price-symbol">{priceCurrencySymbol}</span>
               <span className={`tt-price-value ${isUpdating ? 'positive' : ''}`}>
                 {stockData.price.toFixed(2)}
               </span>
             </div>
             <div className={`tt-price-change ${isUp ? 'up' : 'down'}`}>
               {isUp ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-              <span>{isUp ? '+' : ''}{stockData.change.toFixed(2)} ({stockChangePercent.toFixed(2)}%)</span>
+              <span>{isUp ? '+' : ''}{formatCurrencyValue(stockData.change, stockData.symbol, stockData.exchange)} ({stockChangePercent.toFixed(2)}%)</span>
             </div>
           </div>
 
@@ -752,7 +753,7 @@ const TradingTerminal = () => {
                     domain={['auto', 'auto']}
                     stroke="rgba(255, 255, 255, 0.15)"
                     tick={{ fontSize: 10, fill: 'var(--text-3)' }}
-                    tickFormatter={(val) => `$${val.toFixed(0)}`}
+                    tickFormatter={(val) => `${priceCurrencySymbol}${val.toFixed(0)}`}
                     axisLine={false}
                     tickLine={false}
                     width={45}
@@ -766,7 +767,7 @@ const TradingTerminal = () => {
                     tickLine={false}
                     width={0}
                   />
-                  <Tooltip content={<ChartTooltip />} cursor={{ stroke: 'rgba(255,255,255,0.1)' }} />
+                  <Tooltip content={<ChartTooltip currencyCode={priceCurrencyCode} />} cursor={{ stroke: 'rgba(255,255,255,0.1)' }} />
                   
                   {/* Candlestick Wicks (High/Low) - rendered using thin Bar */}
                   <Bar yAxisId="price" dataKey="wick" barSize={1.5} fill="#6b7280" opacity={0.65} />
@@ -1046,19 +1047,19 @@ const TradingTerminal = () => {
             <div className="tt-wallet-card">
               <div className="tt-wallet-row">
                 <span>Available Margin</span>
-                <span className="tt-wallet-val">${walletBalance.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
+                <span className="tt-wallet-val">{formatCurrencyValue(walletBalance, symbol, stockData?.exchange)}</span>
               </div>
               <div className="tt-wallet-row">
                 <span>Used Margin</span>
-                <span className="tt-wallet-val">${usedMargin.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
+                <span className="tt-wallet-val">{formatCurrencyValue(usedMargin, symbol, stockData?.exchange)}</span>
               </div>
               <div className="tt-wallet-row">
                 <span>Required Margin</span>
-                <span className="tt-wallet-val">${requiredMargin.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
+                <span className="tt-wallet-val">{formatCurrencyValue(requiredMargin, symbol, stockData?.exchange)}</span>
               </div>
               <div className="tt-wallet-row strong">
                 <span>Remaining Margin</span>
-                <span className="tt-wallet-val">${remainingFunds.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
+                <span className="tt-wallet-val">{formatCurrencyValue(remainingFunds, symbol, stockData?.exchange)}</span>
               </div>
             </div>
 
@@ -1067,19 +1068,19 @@ const TradingTerminal = () => {
               <div className="tt-summary-title">Order Value Summary</div>
               <div className="tt-summary-row">
                 <span>Order Value:</span>
-                <span className="tt-summary-val">${orderValue.toFixed(2)}</span>
+                <span className="tt-summary-val">{formatCurrencyValue(orderValue, symbol, stockData?.exchange)}</span>
               </div>
               <div className="tt-summary-row">
                 <span>Est. Brokerage:</span>
-                <span className="tt-summary-val">${brokerage.toFixed(2)}</span>
+                <span className="tt-summary-val">{formatCurrencyValue(brokerage, symbol, stockData?.exchange)}</span>
               </div>
               <div className="tt-summary-row">
                 <span>Taxes & charges:</span>
-                <span className="tt-summary-val">${taxesAndTolls.toFixed(2)}</span>
+                <span className="tt-summary-val">{formatCurrencyValue(taxesAndTolls, symbol, stockData?.exchange)}</span>
               </div>
               <div className="tt-summary-row total">
                 <span>Payable Amount:</span>
-                <span className="tt-summary-val">${totalCost.toFixed(2)}</span>
+                <span className="tt-summary-val">{formatCurrencyValue(totalCost, symbol, stockData?.exchange)}</span>
               </div>
             </div>
 
@@ -1176,28 +1177,28 @@ const TradingTerminal = () => {
             <div className="tt-stats-list">
               <div className="tt-stat-row">
                 <span>Open Price</span>
-                <span className="tt-stat-val">${stockData.open.toFixed(2)}</span>
+                <span className="tt-stat-val">{formatCurrencyValue(stockData.open, stockData.symbol, stockData.exchange)}</span>
               </div>
               <div className="tt-stat-row">
                 <span>Day High</span>
-                <span className="tt-stat-val up">${stockData.high.toFixed(2)}</span>
+                <span className="tt-stat-val up">{formatCurrencyValue(stockData.high, stockData.symbol, stockData.exchange)}</span>
               </div>
               <div className="tt-stat-row">
                 <span>Day Low</span>
-                <span className="tt-stat-val down">${stockData.low.toFixed(2)}</span>
+                <span className="tt-stat-val down">{formatCurrencyValue(stockData.low, stockData.symbol, stockData.exchange)}</span>
               </div>
               <div className="tt-stat-row">
                 <span>Previous Close</span>
-                <span className="tt-stat-val">${stockData.previousClose.toFixed(2)}</span>
+                <span className="tt-stat-val">{formatCurrencyValue(stockData.previousClose, stockData.symbol, stockData.exchange)}</span>
               </div>
               <div className="tt-stat-row">
                 <span>Volume Weighted Avg Price (VWAP)</span>
-                <span className="tt-stat-val">${currentVWAP.toFixed(2)}</span>
+                <span className="tt-stat-val">{formatCurrencyValue(currentVWAP, stockData.symbol, stockData.exchange)}</span>
               </div>
               <div className="tt-stat-row">
                 <span>Lower / Upper Circuit Limit (10%)</span>
                 <span className="tt-stat-val font-mono" style={{ fontSize: '0.7rem' }}>
-                  ${lowerCircuit.toFixed(2)} - ${upperCircuit.toFixed(2)}
+                  {formatCurrencyValue(lowerCircuit, stockData.symbol, stockData.exchange)} - {formatCurrencyValue(upperCircuit, stockData.symbol, stockData.exchange)}
                 </span>
               </div>
             </div>
@@ -1362,15 +1363,15 @@ const TradingTerminal = () => {
                 </div>
                 <div className="tt-modal-row">
                   <span>Price per Share:</span>
-                  <span className="tt-modal-val">${finalPrice.toFixed(2)}</span>
+                  <span className="tt-modal-val">{formatCurrencyValue(finalPrice, symbol, stockData?.exchange)}</span>
                 </div>
                 <div className="tt-modal-row">
                   <span>Required Margin:</span>
-                  <span className="tt-modal-val">${requiredMargin.toFixed(2)}</span>
+                  <span className="tt-modal-val">{formatCurrencyValue(requiredMargin, symbol, stockData?.exchange)}</span>
                 </div>
                 <div className="tt-modal-row total">
                   <span>Total Est. Payable:</span>
-                  <span className="tt-modal-val">${totalCost.toFixed(2)}</span>
+                  <span className="tt-modal-val">{formatCurrencyValue(totalCost, symbol, stockData?.exchange)}</span>
                 </div>
               </div>
 

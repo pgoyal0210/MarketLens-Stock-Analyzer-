@@ -34,6 +34,27 @@
       "email": "browser_test@example.com",
       "password": "$2b$10$yEMtkAX7QZThhJ1LgWt5cuWMC8iJ4Ijis1cLEo4FriFxPLrz4gT1i",
       "role": "user"
+    },
+    {
+      "_id": "cc3dd420-e5b7-480a-bd3c-739648c5b941",
+      "name": "Test Tester",
+      "email": "tester123@example.com",
+      "password": "$2b$10$YSvM9MCJ66vnJeUEqO/L.uP0QPPFOvaGb9QJA74NLnRJ8RRCQ1qtm",
+      "role": "user"
+    },
+    {
+      "_id": "45239dd6-483e-4153-aa0f-94b6abcec80d",
+      "name": "Test Tester",
+      "email": "tester_aug16_1018@example.com",
+      "password": "$2b$10$oP3QG0gxn2M4h7D46nK7Ue7qv5d2WTrkcXaVfJLw9uy/CfaCaNTLu",
+      "role": "user"
+    },
+    {
+      "_id": "7e416157-1821-4583-81cf-af227b9868da",
+      "name": "pranav",
+      "email": "kushmahajan5423@gmail.com",
+      "password": "$2b$10$sG33FFcCsTz5eM68trldzeAQ93uoIoDZEBABsuOPVWxx0/oBKVTB.",
+      "role": "user"
     }
   ],
   "portfolios": [
@@ -86,6 +107,36 @@
       "name": "Tesla Inc.",
       "currentPrice": 0,
       "createdAt": 1776930056085
+    },
+    {
+      "_id": "45f52831-df48-472b-ab22-86ed4bbbb013",
+      "user": "423607ff-76ec-4322-8282-1ad71e81567e",
+      "symbol": "VEDL.NS",
+      "shares": 6,
+      "avgPrice": 267.5,
+      "name": "VEDANTA LIMITED",
+      "currentPrice": 267.5,
+      "createdAt": 1786858173173
+    },
+    {
+      "_id": "2b497b07-0ef2-45eb-8773-eb440595b076",
+      "user": "423607ff-76ec-4322-8282-1ad71e81567e",
+      "symbol": "AAPL",
+      "shares": 8,
+      "avgPrice": 305.93,
+      "name": "Apple Inc.",
+      "currentPrice": 305.93,
+      "createdAt": 1786858266774
+    },
+    {
+      "_id": "d2138eed-089a-4fd2-a567-5417d0f5f652",
+      "user": "7e416157-1821-4583-81cf-af227b9868da",
+      "symbol": "VEDL.NS",
+      "shares": 1,
+      "avgPrice": 267.5,
+      "name": "VEDANTA LIMITED",
+      "currentPrice": 267.5,
+      "createdAt": 1786859117976
     }
   ],
   "messages": [

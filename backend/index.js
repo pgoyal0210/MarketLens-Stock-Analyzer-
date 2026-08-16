@@ -15,10 +15,17 @@ import crypto from 'crypto';
 
 dotenv.config();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173,http://localhost:5174,https://marketlens02.netlify.app,https://marketlens-stock-analyzer.onrender.com")
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173,http://localhost:5174,http://localhost:5175,http://localhost:5176,http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175,http://127.0.0.1:5176,https://marketlens02.netlify.app,https://marketlens-stock-analyzer.onrender.com")
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
+
+const isOriginAllowed = (origin) => {
+  if (!origin) return true;
+  if (allowedOrigins.includes(origin)) return true;
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return true;
+  return false;
+};
 
 // connectDB();
 const app = express();
@@ -27,14 +34,20 @@ const server = http.createServer(app);
 // ─── Socket.IO setup ────────────────────────────────────────────────
 const io = new SocketIO(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      if (isOriginAllowed(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   },
 });
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin) || /\.netlify\.app$/.test(origin)) {
+    if (isOriginAllowed(origin)) {
       callback(null, true);
       return;
     }

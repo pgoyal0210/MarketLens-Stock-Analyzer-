@@ -6,22 +6,20 @@ import { API_BASE_URL, SOCKET_URL } from '../config';
 import { ArrowLeft, TrendingUp, TrendingDown, BarChart3, Activity, Calendar, Hash, PieChart, Bell, BellOff, Wifi, WifiOff, DollarSign, ArrowUpRight, ArrowDownRight, Layers } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { useNotification } from '../contexts/NotificationContext';
+import { formatCompactCurrency, formatCurrencyValue, getCurrencyCode } from '../utils/currency';
 import './StockDetails.css';
 
-const formatLargeNumber = (num) => {
+const formatLargeNumber = (num, symbol = '', exchange = '') => {
   if (num === null || num === undefined) return 'N/A';
-  if (num >= 1_000_000_000_000) return `${(num / 1_000_000_000_000).toFixed(2)}T`;
-  if (num >= 1_000_000_000) return `${(num / 1_000_000_000).toFixed(2)}B`;
-  if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(2)}M`;
-  return num.toLocaleString(); 
+  return formatCompactCurrency(num, symbol, exchange);
 };
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, symbol = '', exchange = '' }) => {
   if (active && payload && payload.length) {
     return (
       <div className="chart-custom-tooltip">
         <p className="tooltip-date">{label}</p>
-        <p className="tooltip-price">${payload[0].value?.toFixed(2)}</p>
+        <p className="tooltip-price">{formatCurrencyValue(payload[0].value, symbol, exchange)}</p>
       </div>
     );
   }
@@ -187,17 +185,18 @@ const StockDetails = () => {
     { id: 'news', label: 'Company News', icon: <Activity size={16} /> },
   ];
 
+  const currencyCode = getCurrencyCode(symbol, stockData?.exchange);
   const isPositive = (stockData?.change || 0) >= 0;
 
   const statItems = stockData ? [
-    { label: 'Market Cap', value: formatLargeNumber(stockData.marketCap), icon: <PieChart size={16} />, gradient: 'stat-gradient-1' },
-    { label: 'Volume', value: formatLargeNumber(stockData.volume), icon: <Hash size={16} />, gradient: 'stat-gradient-2' },
-    { label: 'Day High', value: `$${(stockData.high || 0).toFixed(2)}`, icon: <ArrowUpRight size={16} />, gradient: 'stat-gradient-3' },
-    { label: 'Day Low', value: `$${(stockData.low || 0).toFixed(2)}`, icon: <ArrowDownRight size={16} />, gradient: 'stat-gradient-4' },
-    { label: 'Open', value: `$${(stockData.open || 0).toFixed(2)}`, icon: <DollarSign size={16} />, gradient: 'stat-gradient-5' },
-    { label: 'Previous Close', value: `$${(stockData.previousClose || 0).toFixed(2)}`, icon: <Calendar size={16} />, gradient: 'stat-gradient-6' },
-    { label: 'Change', value: `$${(stockData.change || 0).toFixed(2)}`, icon: isPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />, gradient: 'stat-gradient-7' },
-    { label: 'Shares Outstanding', value: formatLargeNumber(stockData.sharesOutstanding), icon: <Layers size={16} />, gradient: 'stat-gradient-8' },
+    { label: 'Market Cap', value: formatLargeNumber(stockData.marketCap, stockData.symbol, stockData.exchange), icon: <PieChart size={16} />, gradient: 'stat-gradient-1' },
+    { label: 'Volume', value: formatLargeNumber(stockData.volume, stockData.symbol, stockData.exchange), icon: <Hash size={16} />, gradient: 'stat-gradient-2' },
+    { label: 'Day High', value: formatCurrencyValue(stockData.high || 0, stockData.symbol, stockData.exchange), icon: <ArrowUpRight size={16} />, gradient: 'stat-gradient-3' },
+    { label: 'Day Low', value: formatCurrencyValue(stockData.low || 0, stockData.symbol, stockData.exchange), icon: <ArrowDownRight size={16} />, gradient: 'stat-gradient-4' },
+    { label: 'Open', value: formatCurrencyValue(stockData.open || 0, stockData.symbol, stockData.exchange), icon: <DollarSign size={16} />, gradient: 'stat-gradient-5' },
+    { label: 'Previous Close', value: formatCurrencyValue(stockData.previousClose || 0, stockData.symbol, stockData.exchange), icon: <Calendar size={16} />, gradient: 'stat-gradient-6' },
+    { label: 'Change', value: formatCurrencyValue(stockData.change || 0, stockData.symbol, stockData.exchange), icon: isPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />, gradient: 'stat-gradient-7' },
+    { label: 'Shares Outstanding', value: formatLargeNumber(stockData.sharesOutstanding, stockData.symbol, stockData.exchange), icon: <Layers size={16} />, gradient: 'stat-gradient-8' },
   ] : [];
   
   if (loading) return (
@@ -342,7 +341,7 @@ const StockDetails = () => {
                           domain={['auto', 'auto']} 
                           stroke="rgba(255,255,255,0.15)"
                           tick={{fontSize: 11, fill: 'var(--text-3)'}}
-                          tickFormatter={(val) => `$${val}`}
+                          tickFormatter={(val) => `${currencyCode === 'INR' ? '₹' : '$'}${val}`}
                           axisLine={false}
                           tickLine={false}
                           width={60}
