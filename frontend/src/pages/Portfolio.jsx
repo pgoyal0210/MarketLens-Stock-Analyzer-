@@ -222,9 +222,9 @@ const Portfolio = () => {
 
     try {
       if (isEditing) {
-        await axios.put(`/api/protfolio/${currentItemId}`, payload, { withCredentials: true });
+        await axios.put(`${API_BASE_URL}/api/protfolio/${currentItemId}`, payload, { withCredentials: true });
       } else {
-        await axios.post("/api/protfolio", payload, { withCredentials: true });
+        await axios.post(`${API_BASE_URL}/api/protfolio`, payload, { withCredentials: true });
       }
       fetchPortfolio();
       closeModal();
@@ -236,7 +236,7 @@ const Portfolio = () => {
 
   const removeStock = async (id) => {
     try {
-      await axios.delete(`/api/protfolio/${id}`, { withCredentials: true });
+      await axios.delete(`${API_BASE_URL}/api/protfolio/${id}`, { withCredentials: true });
       setPortfolioItems((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {
       console.error("Error removing stock:", err);
@@ -334,7 +334,7 @@ const Portfolio = () => {
     setImportError(null);
 
     try {
-      const res = await axios.post("/api/protfolio/bulk", { holdings: importPreview }, { withCredentials: true });
+      const res = await axios.post(`${API_BASE_URL}/api/protfolio/bulk`, { holdings: importPreview }, { withCredentials: true });
       setImportSuccess(`Successfully imported ${importPreview.length} holdings!`);
       setImportPreview([]);
       setImportFile(null);
