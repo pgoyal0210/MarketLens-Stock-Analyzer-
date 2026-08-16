@@ -15,7 +15,7 @@ import crypto from 'crypto';
 
 dotenv.config();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173,http://localhost:5174,http://localhost:5175,http://localhost:5176,http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175,http://127.0.0.1:5176,https://marketlens02.netlify.app,https://marketlens-stock-analyzer.onrender.com")
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173,http://localhost:5174,http://localhost:5175,http://localhost:5176,http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175,http://127.0.0.1:5176,https://marketlens02.netlify.app,https://www.marketlens02.netlify.app,https://marketlens-stock-analyzer.onrender.com")
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -29,6 +29,7 @@ const isOriginAllowed = (origin) => {
 
 // connectDB();
 const app = express();
+app.set('trust proxy', 1);
 const server = http.createServer(app);
 
 // ─── Socket.IO setup ────────────────────────────────────────────────

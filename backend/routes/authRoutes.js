@@ -8,6 +8,10 @@ import crypto from "crypto";
 
 const router = express.Router();
 
+const isSecureRequest = (req) => {
+  return process.env.NODE_ENV === 'production' || req.secure || req.headers['x-forwarded-proto'] === 'https';
+};
+
 // --- Helper function to generate JWT
 const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "7d" });
@@ -46,7 +50,7 @@ router.post("/signup", async (req, res) => {
 
     const token = generateToken(user._id);
 
-    const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
+    const isSecure = isSecureRequest(req);
     // Set token in HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
@@ -74,7 +78,7 @@ router.post("/login", async (req, res) => {
 
     const token = generateToken(user._id);
 
-    const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
+    const isSecure = isSecureRequest(req);
     // Set token in HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
@@ -92,7 +96,7 @@ router.post("/login", async (req, res) => {
 
 // --- Logout
 router.post("/logout", (req, res) => {
-  const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
+  const isSecure = isSecureRequest(req);
   res.clearCookie("token", {
     httpOnly: true,
     secure: isSecure,
