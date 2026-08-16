@@ -34,7 +34,7 @@ const io = new SocketIO(server, {
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || /\.netlify\.app$/.test(origin)) {
       callback(null, true);
       return;
     }
