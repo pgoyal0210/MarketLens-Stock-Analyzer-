@@ -46,12 +46,12 @@ router.post("/signup", async (req, res) => {
 
     const token = generateToken(user._id);
 
-    const isProd = process.env.NODE_ENV === "production";
+    const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
     // Set token in HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? "none" : "lax",
+      secure: isSecure,
+      sameSite: isSecure ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -74,12 +74,12 @@ router.post("/login", async (req, res) => {
 
     const token = generateToken(user._id);
 
-    const isProd = process.env.NODE_ENV === "production";
+    const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
     // Set token in HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? "none" : "lax",
+      secure: isSecure,
+      sameSite: isSecure ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -92,11 +92,11 @@ router.post("/login", async (req, res) => {
 
 // --- Logout
 router.post("/logout", (req, res) => {
-  const isProd = process.env.NODE_ENV === "production";
+  const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
   res.clearCookie("token", {
     httpOnly: true,
-    secure: isProd,
-    sameSite: isProd ? "none" : "lax",
+    secure: isSecure,
+    sameSite: isSecure ? "none" : "lax",
   });
   res.json({ message: "Logged out successfully" });
 });
