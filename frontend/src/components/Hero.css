@@ -239,3 +239,44 @@
   .btn-lg { width: 100%; justify-content: center; }
   .mock-body { flex-direction: column; }
 }
+
+@media (max-width: 480px) {
+  .hero {
+    padding-top: 80px;
+    padding-bottom: 40px;
+  }
+
+  .hero-title { font-size: 1.85rem; }
+
+  .hero-description {
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+  }
+
+  .hero-content {
+    padding: 0 4px;
+  }
+
+  .mock-window {
+    border-radius: var(--radius-lg);
+    transform: none;
+  }
+
+  .mock-body {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .hero-visual {
+    margin-top: 36px;
+  }
+
+  .orb-1, .orb-2 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+  }
+}

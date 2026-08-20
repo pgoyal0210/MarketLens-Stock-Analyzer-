@@ -616,3 +616,50 @@
     max-width: 100%;
   }
 }
+
+@media (max-width: 480px) {
+  .portfolio-page {
+    padding: 100px 0 40px;
+  }
+
+  .portfolio-title h1 {
+    font-size: 1.75rem;
+  }
+
+  .summary-card {
+    padding: 20px;
+  }
+
+  .summary-value {
+    font-size: 1.8rem;
+  }
+
+  .summary-percent {
+    font-size: 0.9rem;
+  }
+
+  .portfolio-holdings h2 {
+    font-size: 1.25rem;
+  }
+
+  .modal-content {
+    margin: 12px;
+    max-width: calc(100vw - 24px);
+  }
+
+  .modal-content form {
+    padding: 16px;
+  }
+
+  .modal-header {
+    padding: 16px;
+  }
+
+  .empty-portfolio {
+    padding: 40px 16px;
+  }
+
+  .empty-portfolio h3 {
+    font-size: 1.25rem;
+  }
+}

@@ -183,3 +183,34 @@
 .auth-icon-btn:hover {
   color: var(--text-1);
 }
+
+@media (max-width: 480px) {
+  .auth-page {
+    padding: 70px 16px 40px;
+  }
+
+  .auth-card {
+    padding: 28px 20px;
+  }
+
+  .auth-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .auth-header {
+    margin-bottom: 24px;
+  }
+
+  .auth-input-group input {
+    height: 48px;
+  }
+
+  .auth-submit {
+    height: 48px;
+    font-size: 0.95rem;
+  }
+
+  .auth-social {
+    flex-direction: column;
+  }
+}

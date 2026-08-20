@@ -171,3 +171,42 @@
   .section-header h2 { font-size: 2rem; }
   .cta-content h2 { font-size: 2rem; }
 }
+
+@media (max-width: 480px) {
+  .features-section {
+    padding: 4rem 0;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .section-header p {
+    font-size: 0.95rem;
+  }
+
+  .home .bento-card {
+    padding: 24px;
+  }
+
+  .cta-section {
+    padding: 2rem 0 4rem;
+  }
+
+  .cta-box {
+    padding: 3rem 1.25rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .cta-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .cta-content p {
+    font-size: 0.95rem;
+  }
+}

@@ -140,6 +140,7 @@ input, textarea, select {
   border-radius: var(--radius);
   border: 1px solid var(--border);
   transition: all var(--transition);
+  font-size: 16px; /* Prevents zoom on iOS focus */
 }
 
 input:focus, textarea:focus, select:focus {
@@ -153,6 +154,12 @@ input:focus, textarea:focus, select:focus {
   width: 100%;
   margin: 0 auto;
   padding: 0 24px;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
 }
 
 /* === BUTTONS === */
@@ -249,4 +256,24 @@ input:focus, textarea:focus, select:focus {
 .animate-fade-in {
   animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   opacity: 0;
+}
+
+/* === MOBILE GLOBAL RESPONSIVE === */
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+
+  .btn-lg {
+    padding: 14px 24px;
+    font-size: 0.95rem;
+  }
+
+  h1 { font-size: 1.75rem !important; }
+  h2 { font-size: 1.5rem !important; }
 }

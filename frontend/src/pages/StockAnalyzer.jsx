@@ -56,10 +56,10 @@ const StockCard = ({ stock, index }) => (
       </div>
 
       <div className="sa-card-actions" style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
-        <Link to={`/stock/${stock.symbol}`} target="_blank" rel="noopener noreferrer" className="sa-analyze-btn" style={{ margin: 0, flex: 1, padding: '10px 4px', fontSize: '0.82rem' }}>
+        <Link to={`/stock/${stock.symbol}`} className="sa-analyze-btn" style={{ margin: 0, flex: 1, padding: '10px 4px', fontSize: '0.82rem' }}>
           <span>Analysis</span>
         </Link>
-        <Link to={`/trade/${stock.symbol}`} target="_blank" rel="noopener noreferrer" className="sa-analyze-btn" style={{ margin: 0, flex: 1, padding: '10px 4px', fontSize: '0.82rem', background: 'var(--green)', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.25)' }}>
+        <Link to={`/trade/${stock.symbol}`} className="sa-analyze-btn" style={{ margin: 0, flex: 1, padding: '10px 4px', fontSize: '0.82rem', background: 'var(--green)', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.25)' }}>
           <span>Trade</span>
         </Link>
       </div>

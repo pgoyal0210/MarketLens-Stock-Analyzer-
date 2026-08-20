@@ -16,7 +16,6 @@ import About from './pages/About';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import AuthLayout from './components/authLayout';
-import ChatWidget from './components/ChatWidget';
 
 function App() {
   return (
@@ -72,7 +71,6 @@ function App() {
               </Routes>
             </main>
             <Footer />
-            <ChatWidget />
           </div>
         </Router>
       </NotificationProvider>

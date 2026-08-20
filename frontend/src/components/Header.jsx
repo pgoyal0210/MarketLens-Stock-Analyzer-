@@ -52,6 +52,7 @@ const Header = () => {
     }
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('userId');
+    localStorage.removeItem('token');
     window.dispatchEvent(new Event('authChange'));
     setIsAuthenticated(false);
     window.location.href = '/';

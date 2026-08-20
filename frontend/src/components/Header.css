@@ -10,6 +10,12 @@
   pointer-events: none;
 }
 
+@media (max-width: 480px) {
+  .header {
+    padding: 12px 12px;
+  }
+}
+
 .header-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -25,6 +31,14 @@
   border-radius: 9999px;
   transition: all 0.3s ease;
   pointer-events: auto;
+  gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .header-container {
+    padding: 10px 16px;
+    gap: 4px;
+  }
 }
 
 .header.scrolled .header-container {
@@ -47,6 +61,17 @@
   letter-spacing: -0.02em;
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+@media (max-width: 380px) {
+  .logo {
+    font-size: 1.05rem;
+    gap: 6px;
+  }
+  .logo-icon svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .logo-icon {
@@ -131,6 +156,16 @@
   box-shadow: var(--shadow-md);
   overflow: hidden;
   z-index: 100;
+}
+
+@media (max-width: 480px) {
+  .notification-dropdown {
+    position: fixed;
+    top: 80px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
 }
 
 .notification-header {

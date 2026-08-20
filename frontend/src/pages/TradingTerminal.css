@@ -4,6 +4,7 @@
 
 .tt-page {
   min-height: 100vh;
+  width: 100%;
   padding: 85px 16px 40px;
   position: relative;
   overflow-x: hidden;
@@ -260,6 +261,10 @@
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: 16px;
+}
+
+.tt-main-grid > * {
+  min-width: 0;
 }
 
 /* ==========================================
@@ -1234,5 +1239,39 @@
   .tt-header-right {
     width: 100%;
     justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .tt-page {
+    padding: 75px 8px 20px;
+    width: 100%;
+  }
+  .tt-glass-card {
+    padding: 12px;
+  }
+  .tt-header-left {
+    gap: 8px;
+  }
+  .tt-company-name {
+    font-size: 1.1rem;
+  }
+  .tt-price-value {
+    font-size: 1.4rem;
+  }
+  .tt-chart-wrapper {
+    height: 280px;
+  }
+  .tt-form-row.two-col {
+    grid-template-columns: 1fr;
+  }
+  .tt-selector-row {
+    gap: 6px;
+  }
+  .tt-depth-grid {
+    grid-template-columns: 1fr;
+  }
+  .tt-depth-divider {
+    display: none;
   }
 }

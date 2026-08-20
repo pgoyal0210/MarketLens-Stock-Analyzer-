@@ -55,6 +55,27 @@
       "email": "kushmahajan5423@gmail.com",
       "password": "$2b$10$sG33FFcCsTz5eM68trldzeAQ93uoIoDZEBABsuOPVWxx0/oBKVTB.",
       "role": "user"
+    },
+    {
+      "_id": "8fa0e58a-7162-4e67-981a-c1062d7759a6",
+      "name": "pranav",
+      "email": "pranav0210@gmail.com",
+      "password": "$2b$10$sIfDe/2gIq6UKR3hwdZ/0.h3wetaCJIaT5FfiienLJnlnvqJpclma",
+      "role": "user"
+    },
+    {
+      "_id": "26cff7c7-9f24-4be4-9b3c-eb4eca9d80e5",
+      "name": "pranav",
+      "email": "kushmahajan50434@gmail.com",
+      "password": "$2b$10$CI179gTqZpZ8fZ8kfbkNFeP/gP64PCyv1BSfBBpJkG4ZC0Hd6F6LK",
+      "role": "user"
+    },
+    {
+      "_id": "3a181a11-f656-4dcd-96d6-da63aa87fdad",
+      "name": "pranav",
+      "email": "pranav021023@gmail.com",
+      "password": "$2b$10$DAkmyQcbxwcpAufhqCfcTO0uRozeTMs6cviAI.Zyyjg1ImC7O/Ehy",
+      "role": "user"
     }
   ],
   "portfolios": [
